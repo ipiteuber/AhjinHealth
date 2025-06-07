@@ -1,0 +1,7 @@
+{
+  "name": "AhjinHealth",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
