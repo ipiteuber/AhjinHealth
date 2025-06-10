@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-schedule',
   templateUrl: './schedule.page.html',
   styleUrls: ['./schedule.page.scss'],
+  standalone: false
 })
 export class SchedulePage implements OnInit {
 
