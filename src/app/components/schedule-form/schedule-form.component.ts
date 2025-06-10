@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-schedule-form',
   templateUrl: './schedule-form.component.html',
   styleUrls: ['./schedule-form.component.scss'],
+  standalone: false
 })
 export class ScheduleFormComponent  implements OnInit {
 
