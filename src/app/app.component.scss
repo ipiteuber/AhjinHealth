@@ -1,0 +1,34 @@
+ion-menu {
+    --background: #E5F0EB;
+    --ion-background-color: #E5F0EB;
+    --color: #5FABA5;
+
+    ion-header {
+        background-color: #A1CECB;
+        color: white;
+    }
+
+    ion-toolbar {
+        --background: #A1CECB;
+        --color: white;
+    }
+
+    ion-title {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    ion-content {
+        --background: #E5F0EB;
+    }
+
+    ion-item {
+        --background: transparent;
+        --color: #5FABA5;
+        font-weight: 500;
+
+        &:hover {
+            background-color: #A4CCB9;
+        }
+    }
+}

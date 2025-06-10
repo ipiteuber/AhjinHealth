@@ -16,6 +16,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
+// Modulos
+import { BaseModule } from 'src/app/components/base/base.module';
+import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,7 +32,9 @@ import { MatCardModule } from '@angular/material/card';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    BaseModule,         // Navbar y Footer
+    CustomFormsModule   // LoginForm, ScheduleForm, UserData
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

@@ -8,11 +8,16 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 
+import { BaseModule } from 'src/app/components/base/base.module';
+import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    BaseModule,         // Navbar y Footer
+    CustomFormsModule,   // LoginForm, ScheduleForm, UserData
     LoginPageRoutingModule
   ],
   declarations: [LoginPage]

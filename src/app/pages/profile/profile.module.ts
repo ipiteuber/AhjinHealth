@@ -8,11 +8,16 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
 
+import { BaseModule } from 'src/app/components/base/base.module';
+import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    BaseModule,         // Navbar y Footer
+    CustomFormsModule,   // LoginForm, ScheduleForm, UserData
     ProfilePageRoutingModule
   ],
   declarations: [ProfilePage]
