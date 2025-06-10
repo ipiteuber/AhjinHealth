@@ -6,10 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-data.component.scss'],
   standalone: false
 })
-export class UserDataComponent  implements OnInit {
+export class UserDataComponent implements OnInit {
+  user: { name: string; email: string; password: string } | null = null;
+  mostrarPassword = false;
 
-  constructor() { }
+  ngOnInit(): void {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.user = JSON.parse(storedUser);
+    }
+  }
 
-  ngOnInit() {}
-
+  togglePassword(): void {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
 }

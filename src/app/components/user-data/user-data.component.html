@@ -1,3 +1,30 @@
-<p>
-  user-data works!
-</p>
+<div class="data-container" *ngIf="user; else noUser">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="form-title">Datos del Usuario</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="full-width">
+        <strong>Nombre:</strong> {{ user.name }}
+      </div>
+      <div class="full-width">
+        <strong>Email:</strong> {{ user.email }}
+      </div>
+      <div class="full-width">
+        <strong>Contrasena: </strong>
+        <span>{{ mostrarPassword ? user.password : '••••••••' }}</span>
+      </div>
+
+      <div class="form-actions">
+        <button class="custom-button" (click)="togglePassword()">
+          {{ mostrarPassword ? 'Ocultar Contrasena' : 'Mostrar Contrasena' }}
+        </button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<ng-template #noUser>
+  <p class="error-message">No hay usuario registrado.</p>
+</ng-template>
