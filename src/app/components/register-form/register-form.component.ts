@@ -10,11 +10,11 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('shake', [
       transition('* => true', [
-        animate('0.5s', style({ transform: 'translateX(-10px)' })),
-        animate('0.5s', style({ transform: 'translateX(10px)' })),
-        animate('0.5s', style({ transform: 'translateX(-6px)' })),
-        animate('0.5s', style({ transform: 'translateX(6px)' })),
-        animate('0.5s', style({ transform: 'translateX(0)' }))
+        animate('0.1s', style({ transform: 'translateX(-10px)' })),
+        animate('0.1s', style({ transform: 'translateX(10px)' })),
+        animate('0.1s', style({ transform: 'translateX(-6px)' })),
+        animate('0.1s', style({ transform: 'translateX(6px)' })),
+        animate('0.1s', style({ transform: 'translateX(0)' }))
       ])
     ])
   ]
@@ -39,18 +39,19 @@ export class RegisterFormComponent implements OnInit {
     });
   }
 
+  private triggerShake(): void {
+    this.isShaking = true;
+    setTimeout(() => this.isShaking = false, 500);
+  }
+
   onSubmit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      this.isShaking = true;
-
-      // Detener shake despues de la animacion
-      setTimeout(() => this.isShaking = false, 500);
+      this.triggerShake();
       return;
     }
 
     const userData = this.registerForm.value;
-
     // Array de users
     const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
 
@@ -61,6 +62,10 @@ export class RegisterFormComponent implements OnInit {
       console.warn('Ya hay un usuario registrado con ese email.');
       this.registrationError = true;
       this.registrationSuccess = false;
+
+      // Animacion boton
+      this.triggerShake();
+
       return;
     }
 
