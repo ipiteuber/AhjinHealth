@@ -1,3 +1,28 @@
-<p>
-  login-form works!
-</p>
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <ion-card>
+    <h2 class="form-title">Iniciar sesion</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" required autocomplete="email" />
+      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Campo obligatorio</mat-error>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Formato invalido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Contrasena</mat-label>
+      <input matInput type="password" formControlName="password" required autocomplete="current-password" />
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Campo obligatorio</mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <!-- Boton con animacion ionic -->
+      <button mat-raised-button class="custom-button" [@shake]="isShaking" type="submit" [disabled]="loginForm.invalid">
+        Entrar
+      </button>
+    </div>
+
+    <p *ngIf="loginSuccess" class="success-message">Inicio de sesion exitoso</p>
+    <p *ngIf="loginError" class="error-message">Credenciales incorrectas</p>
+  </ion-card>
+</form>
