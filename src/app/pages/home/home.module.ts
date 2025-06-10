@@ -17,7 +17,7 @@ import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms
     FormsModule,
     IonicModule,
     BaseModule,         // Navbar y Footer
-    CustomFormsModule,   // LoginForm, ScheduleForm, UserData
+    CustomFormsModule,   // LoginForm, RegisterForm ScheduleForm, UserData
     HomePageRoutingModule
   ],
   declarations: [HomePage]

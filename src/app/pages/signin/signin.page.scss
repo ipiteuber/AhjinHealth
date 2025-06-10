@@ -1,0 +1,15 @@
+.register-container {
+    height: calc(100vh - 56px - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--ion-background-color);
+}
+
+ion-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 1rem;
+    background-color: white;
+}
