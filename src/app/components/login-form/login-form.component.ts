@@ -51,6 +51,8 @@ export class LoginFormComponent implements OnInit {
     if (matchedUser) {
       this.loginSuccess = true;
       this.loginError = false;
+      // Guarda sesion para el guard
+      localStorage.setItem('usuarioActual', JSON.stringify(matchedUser));
     } else {
       this.loginError = true;
       this.loginSuccess = false;

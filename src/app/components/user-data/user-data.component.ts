@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-data',
@@ -11,7 +12,7 @@ export class UserDataComponent implements OnInit {
   mostrarPassword = false;
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('usuarioActual');
     if (storedUser) {
       this.user = JSON.parse(storedUser);
     }
@@ -19,5 +20,12 @@ export class UserDataComponent implements OnInit {
 
   togglePassword(): void {
     this.mostrarPassword = !this.mostrarPassword;
+  }
+
+  constructor(private router: Router) {}
+
+  logout(): void {
+    localStorage.removeItem('usuarioActual');
+    this.router.navigate(['/login']);
   }
 }

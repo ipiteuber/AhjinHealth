@@ -1,6 +1,6 @@
 .full-width {
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .form-actions {
@@ -14,12 +14,11 @@
     justify-content: center;
     align-items: center;
     background-color: #D7E0CC;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 ion-card {
     width: 100%;
-    padding: 1rem;
     max-width: 400px;
     background-color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -68,4 +67,17 @@ ion-card {
     color: grey;
     font-weight: bold;
     margin-top: 1rem;
+}
+
+::ng-deep .mat-form-field {
+    margin-bottom: 0.25rem !important;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0 !important;
+}
+
+::ng-deep .mat-error {
+    margin-top: 0;
+    font-size: 0.75rem;
 }
