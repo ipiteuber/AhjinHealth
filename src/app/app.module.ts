@@ -39,7 +39,6 @@ import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms
     MatIconModule,
     MatCardModule,
     MatError,
-  
     BaseModule,         // Navbar y Footer
     CustomFormsModule   // LoginForm, RegisterForm ScheduleForm, UserData
   ],

@@ -1,3 +1,37 @@
-<p>
-  schedule-form works!
-</p>
+<div class="schedule-container">
+  <form [formGroup]="scheduleForm" (ngSubmit)="agendarCita()">
+    <ion-card class="form-card">
+      <ion-card-header>
+        <h2 class="form-title">Agendar Cita</h2>
+      </ion-card-header>
+
+      <ion-card-content class="form-content">
+
+        <label class="form-label" for="fecha">Selecciona una fecha</label>
+        <ion-datetime
+          formControlName="fecha"
+          presentation="date"
+          class="form-input"
+        ></ion-datetime>
+
+        <label class="form-label" for="hora">Selecciona una hora</label>
+        <ion-button
+          class="form-input"
+          (click)="openHoraPicker()"
+          expand="block"
+          fill="outline"
+        >
+          {{ scheduleForm.get('hora')?.value || 'Selecciona una hora' }}
+        </ion-button>
+
+        <button type="submit" class="form-button" [disabled]="!scheduleForm.valid">
+          Agendar
+        </button>
+
+        <p class="form-message" *ngIf="citaAgendada">
+          Cita agendada exitosamente
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</div>
