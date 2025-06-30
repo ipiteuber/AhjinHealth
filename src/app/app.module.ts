@@ -24,6 +24,15 @@ import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms
 // SQLite
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 
+// Interceptores HTTP
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+
+// Plugins moviles
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+
+
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -39,13 +48,16 @@ import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    BaseModule,        // Navbar y Footer
+    BaseModule, // Navbar y Footer
     CustomFormsModule, // LoginForm, RegisterForm ScheduleForm, UserData
-    RouterModule // Router
+    RouterModule, // Router
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     SQLite,
+    Camera,
+    Geolocation,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
   bootstrap: [AppComponent],
 })
