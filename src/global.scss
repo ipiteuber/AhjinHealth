@@ -60,7 +60,7 @@ button,
 
 button:hover,
 .mat-raised-button:hover {
-  background-color: darken(#79B9B3, 10%);
+  background-color: adjust-color(#79B9B3, $lightness: -10%);
 }
 
 .schedule-container {

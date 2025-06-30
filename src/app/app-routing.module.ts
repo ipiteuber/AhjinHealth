@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
   { path: 'signin', loadChildren: () => import('./pages/signin/signin.module').then(m => m.SigninPageModule) },
+  { path: 'medicos', loadChildren: () => import('./pages/medicos/medicos.module').then( m => m.MedicosPageModule)},
 
   // Rutas protegidas con guard
   {

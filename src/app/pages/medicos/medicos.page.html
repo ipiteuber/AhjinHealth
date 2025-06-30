@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let medico of medicos">
+      <ion-label>
+        <h2>{{ medico.nombre }}</h2>
+        <p>Especialidad: {{ medico.especialidad }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="medicos.length === 0" class="ion-text-center" style="margin-top: 2rem;">
+    <p>No hay medicos registrados.</p>
+  </div>
+</ion-content>

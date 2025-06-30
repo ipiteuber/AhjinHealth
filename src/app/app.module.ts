@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouterModule, RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
@@ -16,17 +16,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatError } from '@angular/material/form-field';
 
 // Modulos
 import { BaseModule } from 'src/app/components/base/base.module';
 import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms.module';
 
+// SQLite
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({}),
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -37,11 +39,14 @@ import { FormsModule as CustomFormsModule } from 'src/app/components/forms/forms
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatError,
-    BaseModule,         // Navbar y Footer
-    CustomFormsModule   // LoginForm, RegisterForm ScheduleForm, UserData
+    BaseModule,        // Navbar y Footer
+    CustomFormsModule, // LoginForm, RegisterForm ScheduleForm, UserData
+    RouterModule // Router
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    SQLite,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
