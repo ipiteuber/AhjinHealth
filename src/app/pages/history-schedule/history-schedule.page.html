@@ -1,0 +1,20 @@
+<div class="history-container">
+  <h2>Historial de Horas Agendadas</h2>
+  <div *ngIf="loading" class="loading">Cargando historial...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="usandoDatosLocales && !loading && !error" class="info">
+    Mostrando datos locales por falta de conexion.
+  </div>
+  <div *ngIf="!loading && historial.length === 0 && !error" class="empty">
+    No hay horas agendadas.
+  </div>
+  <ion-list *ngIf="!loading && historial.length > 0">
+    <ion-item *ngFor="let cita of historial">
+      <ion-label>
+        <h3>{{ cita.fecha }} - {{ cita.hora }}</h3>
+        <p>Medico: {{ cita.medico }}</p>
+        <p *ngIf="cita.ubicacion">Ubicacion: {{ cita.ubicacion }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>

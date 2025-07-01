@@ -1,0 +1,64 @@
+{
+  "medicos": [
+    {
+      "id": 10,
+      "nombre": "Dra. Ana Perez",
+      "especialidad": "Cardiología"
+    },
+    {
+      "id": 20,
+      "nombre": "Dr. Juan Gomez",
+      "especialidad": "Pediatría"
+    },
+    {
+      "id": 30,
+      "nombre": "Dra. Laura Torres",
+      "especialidad": "Dermatología"
+    }
+  ],
+  "agenda": [
+    { "id": 1, "medico": 10, "usuario": 1, "fecha": "2025-06-30", "hora": "09:00" },
+    { "id": 2, "medico": 10, "usuario": 2, "fecha": "2025-06-30", "hora": "10:00" },
+    { "id": 3, "medico": 20, "usuario": 3, "fecha": "2025-06-30", "hora": "09:30" },
+    { "id": 4, "medico": 20, "usuario": 4, "fecha": "2025-06-30", "hora": "11:00" },
+    { "id": 5, "medico": 30, "usuario": 5, "fecha": "2025-06-30", "hora": "08:30" },
+    { "id": 6, "medico": 30, "usuario": 6, "fecha": "2025-06-30", "hora": "12:00" },
+    { "id": 7, "medico": 10, "usuario": 7, "fecha": "2025-06-30", "hora": "13:00" },
+    { "id": 8, "medico": 20, "usuario": 8, "fecha": "2025-06-30", "hora": "14:00" },
+    { "id": 9, "medico": 30, "usuario": 9, "fecha": "2025-06-30", "hora": "15:00" },
+    { "id": 10, "medico": 10, "usuario": 10, "fecha": "2025-06-30", "hora": "16:00" },
+
+    { "id": 11, "medico": 10, "usuario": 11, "fecha": "2025-07-01", "hora": "09:00" },
+    { "id": 12, "medico": 10, "usuario": 12, "fecha": "2025-07-01", "hora": "10:00" },
+    { "id": 13, "medico": 20, "usuario": 13, "fecha": "2025-07-01", "hora": "09:30" },
+    { "id": 14, "medico": 20, "usuario": 14, "fecha": "2025-07-01", "hora": "11:00" },
+    { "id": 15, "medico": 30, "usuario": 15, "fecha": "2025-07-01", "hora": "08:30" },
+    { "id": 16, "medico": 30, "usuario": 16, "fecha": "2025-07-01", "hora": "12:00" },
+    { "id": 17, "medico": 10, "usuario": 17, "fecha": "2025-07-01", "hora": "13:00" },
+    { "id": 18, "medico": 20, "usuario": 18, "fecha": "2025-07-01", "hora": "14:00" },
+    { "id": 19, "medico": 30, "usuario": 19, "fecha": "2025-07-01", "hora": "15:00" },
+    { "id": 20, "medico": 10, "usuario": 20, "fecha": "2025-07-01", "hora": "16:00" },
+
+    { "id": 21, "medico": 10, "usuario": 21, "fecha": "2025-07-02", "hora": "09:00" },
+    { "id": 22, "medico": 10, "usuario": 22, "fecha": "2025-07-02", "hora": "10:00" },
+    { "id": 23, "medico": 20, "usuario": 23, "fecha": "2025-07-02", "hora": "09:30" },
+    { "id": 24, "medico": 20, "usuario": 24, "fecha": "2025-07-02", "hora": "11:00" },
+    { "id": 25, "medico": 30, "usuario": 25, "fecha": "2025-07-02", "hora": "08:30" },
+    { "id": 26, "medico": 30, "usuario": 26, "fecha": "2025-07-02", "hora": "12:00" },
+    { "id": 27, "medico": 10, "usuario": 27, "fecha": "2025-07-02", "hora": "13:00" },
+    { "id": 28, "medico": 20, "usuario": 28, "fecha": "2025-07-02", "hora": "14:00" },
+    { "id": 29, "medico": 30, "usuario": 29, "fecha": "2025-07-02", "hora": "15:00" },
+    { "id": 30, "medico": 10, "usuario": 30, "fecha": "2025-07-02", "hora": "16:00" },
+
+    { "id": 31, "medico": 10, "usuario": 31, "fecha": "2025-07-03", "hora": "09:00" },
+    { "id": 32, "medico": 10, "usuario": 32, "fecha": "2025-07-03", "hora": "10:00" },
+    { "id": 33, "medico": 20, "usuario": 33, "fecha": "2025-07-03", "hora": "09:30" },
+    { "id": 34, "medico": 20, "usuario": 34, "fecha": "2025-07-03", "hora": "11:00" },
+    { "id": 35, "medico": 30, "usuario": 35, "fecha": "2025-07-03", "hora": "08:30" },
+    { "id": 36, "medico": 30, "usuario": 36, "fecha": "2025-07-03", "hora": "12:00" },
+    { "id": 37, "medico": 10, "usuario": 37, "fecha": "2025-07-03", "hora": "13:00" },
+    { "id": 38, "medico": 20, "usuario": 38, "fecha": "2025-07-03", "hora": "14:00" },
+    { "id": 39, "medico": 30, "usuario": 39, "fecha": "2025-07-03", "hora": "15:00" },
+    { "id": 40, "medico": 10, "usuario": 40, "fecha": "2025-07-03", "hora": "16:00" }
+  ]
+}

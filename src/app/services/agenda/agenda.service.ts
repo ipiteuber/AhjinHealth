@@ -1,58 +1,51 @@
 import { Injectable } from '@angular/core';
-import { SqliteService } from '../sqlite/sqlite.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface Agenda {
   id?: number;
-  medico: number; // id del médico
-  usuario: number; // id del usuario
-  fecha: string; // formato DD/MM/YYYY
+  medico: number;
+  usuario: number;
+  fecha: string;
   hora: string;
+  ubicacion?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgendaService {
-  constructor(private db: SqliteService) { }
+  private apiUrl = environment.apiUrl;
 
-  // Crear tabla agenda
-  async createTable() {
-    const query = `CREATE TABLE IF NOT EXISTS agenda (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      medico INTEGER,
-      usuario INTEGER,
-      fecha TEXT,
-      hora TEXT
-    )`;
-    await this.db.executeSql(query);
+  constructor(private http: HttpClient) {}
+
+  getAgendas(): Observable<Agenda[]> {
+    return this.http.get<Agenda[]>(`${this.apiUrl}/agenda`).pipe(
+      catchError(err => {
+        if (err.status === 404) {
+          return throwError(() => err);
+        }
+        return throwError(() => err);
+      })
+    );
   }
 
-  // Agregar cita a la agenda
-  async addAgenda(agenda: Agenda) {
-    const query = 'INSERT INTO agenda (medico, usuario, fecha, hora) VALUES (?, ?, ?, ?)';
-    await this.db.executeSql(query, [agenda.medico, agenda.usuario, agenda.fecha, agenda.hora]);
+  getLocalAgendas(): Agenda[] {
+    const data = localStorage.getItem('agendas');
+    return data ? JSON.parse(data) : [];
   }
 
-  // Obtener todas las citas
-  async getAgendas(): Promise<Agenda[]> {
-    const query = 'SELECT * FROM agenda';
-    const res = await this.db.executeSql(query);
-    const agendas: Agenda[] = [];
-    for (let i = 0; i < res.rows.length; i++) {
-      agendas.push(res.rows.item(i));
-    }
-    return agendas;
+  addAgenda(agenda: Agenda): Observable<Agenda> {
+    return this.http.post<Agenda>(`${this.apiUrl}/agenda`, agenda);
   }
 
-  // Actualizar cita
-  async updateAgenda(agenda: Agenda) {
-    const query = 'UPDATE agenda SET medico = ?, usuario = ?, fecha = ?, hora = ? WHERE id = ?';
-    await this.db.executeSql(query, [agenda.medico, agenda.usuario, agenda.fecha, agenda.hora, agenda.id]);
+  updateAgenda(id: number, agenda: Agenda): Observable<Agenda> {
+    return this.http.put<Agenda>(`${this.apiUrl}/agenda/${id}`, agenda);
   }
 
-  // Eliminar cita
-  async deleteAgenda(id: number) {
-    const query = 'DELETE FROM agenda WHERE id = ?';
-    await this.db.executeSql(query, [id]);
+  deleteAgenda(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/agenda/${id}`);
   }
 }

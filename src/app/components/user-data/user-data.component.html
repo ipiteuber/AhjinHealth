@@ -5,15 +5,25 @@
     </ion-card-header>
 
     <ion-card-content>
+      <!-- Foto de perfil -->
+      <div class="full-width" style="text-align:center; margin-bottom:1rem;">
+        <img *ngIf="user.foto" [src]="user.foto" alt="Foto de perfil" width="120" height="120" style="border-radius:50%;object-fit:cover;">
+        <div *ngIf="!user.foto" style="width:120px;height:120px;border-radius:50%;background:#eee;display:inline-block;line-height:120px;">Sin foto</div>
+      </div>
+      <div class="form-actions" style="justify-content: space-evenly;">
+        <button class="custom-button" (click)="tomarFoto()">Tomar foto</button>
+        <button class="custom-button" (click)="elegirFoto()">Elegir foto</button>
+      </div>
+
       <div class="full-width">
-        <strong>Nombre:</strong> {{ user.name }}
+        <strong>Nombre:</strong> {{ user.nombre }}
       </div>
       <div class="full-width">
         <strong>Email:</strong> {{ user.email }}
       </div>
       <div class="full-width">
         <strong>Contrasena: </strong>
-        <span>{{ mostrarPassword ? user.password : '••••••••' }}</span>
+        <span>{{ mostrarPassword ? user.contrasena : '********' }}</span>
       </div>
 
       <div class="form-actions">
@@ -27,7 +37,6 @@
           Cerrar Sesion
         </button>
       </div>
-
     </ion-card-content>
   </ion-card>
 </div>

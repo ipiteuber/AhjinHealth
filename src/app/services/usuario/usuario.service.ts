@@ -6,13 +6,14 @@ export interface Usuario {
   nombre: string;
   email: string;
   contrasena: string;
+  foto?: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
-  constructor(private db: SqliteService) { }
+  constructor(private db: SqliteService) {}
 
   // Crear tabla usuarios
   async createTable() {
@@ -20,15 +21,26 @@ export class UsuarioService {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       nombre TEXT,
       email TEXT,
-      contrasena TEXT
+      contrasena TEXT,
+      foto TEXT
     )`;
     await this.db.executeSql(query);
   }
 
   // Agregar usuario
   async addUsuario(usuario: Usuario) {
-    const query = 'INSERT INTO usuarios (nombre, email, contrasena) VALUES (?, ?, ?)';
-    await this.db.executeSql(query, [usuario.nombre, usuario.email, usuario.contrasena]);
+    const query =
+      'INSERT INTO usuarios (nombre, email, contrasena, foto) VALUES (?, ?, ?, ?)';
+    const res = await this.db.executeSql(query, [
+      usuario.nombre,
+      usuario.email,
+      usuario.contrasena,
+      usuario.foto || null,
+    ]);
+
+    // Recupera el id creado para usuario
+    const id = res.insertId;
+    return { id, ...usuario };
   }
 
   // Obtener todos los usuarios
@@ -44,8 +56,15 @@ export class UsuarioService {
 
   // Actualizar usuario
   async updateUsuario(usuario: Usuario) {
-    const query = 'UPDATE usuarios SET nombre = ?, email = ?, contrasena = ? WHERE id = ?';
-    await this.db.executeSql(query, [usuario.nombre, usuario.email, usuario.contrasena, usuario.id]);
+    const query =
+      'UPDATE usuarios SET nombre = ?, email = ?, contrasena = ?, foto = ? WHERE id = ?';
+    await this.db.executeSql(query, [
+      usuario.nombre,
+      usuario.email,
+      usuario.contrasena,
+      usuario.foto || null,
+      usuario.id,
+    ]);
   }
 
   // Eliminar usuario

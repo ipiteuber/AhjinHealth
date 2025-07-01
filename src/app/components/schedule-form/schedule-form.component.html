@@ -6,23 +6,43 @@
       </ion-card-header>
 
       <ion-card-content class="form-content">
+        <label class="form-label" for="medico">Selecciona un medico</label>
+        <ion-select
+          formControlName="medico"
+          interface="popover"
+          placeholder="Selecciona un médico"
+          (ionChange)="onMedicoFechaChange()"
+          class="form-input"
+        >
+          <ion-select-option *ngFor="let medico of medicos" [value]="medico.id">
+            {{ medico.nombre }} ({{ medico.especialidad }})
+          </ion-select-option>
+        </ion-select>
 
         <label class="form-label" for="fecha">Selecciona una fecha</label>
         <ion-datetime
           formControlName="fecha"
           presentation="date"
+          (ionChange)="onMedicoFechaChange()"
           class="form-input"
         ></ion-datetime>
 
         <label class="form-label" for="hora">Selecciona una hora</label>
-        <ion-button
+        <ion-select
+          formControlName="hora"
+          interface="popover"
+          placeholder="Selecciona una hora"
           class="form-input"
-          (click)="openHoraPicker()"
-          expand="block"
-          fill="outline"
         >
-          {{ scheduleForm.get('hora')?.value || 'Selecciona una hora' }}
-        </ion-button>
+          <ion-select-option *ngFor="let hora of horasDisponibles" [value]="hora">
+            {{ hora }}
+          </ion-select-option>
+        </ion-select>
+
+        <ion-item class="form-input">
+          <ion-label position="floating">Ubicacion</ion-label>
+          <ion-input formControlName="ubicacion" readonly></ion-input>
+        </ion-item>
 
         <button type="submit" class="form-button" [disabled]="!scheduleForm.valid">
           Agendar

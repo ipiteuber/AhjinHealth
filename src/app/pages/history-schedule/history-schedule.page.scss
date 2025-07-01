@@ -1,0 +1,29 @@
+.history-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+  }
+
+  .loading, .error, .info, .empty {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 1.1rem;
+  }
+  .error {
+    color: #c0392b;
+  }
+  .info {
+    color: #2980b9;
+  }
+  .empty {
+    color: #888;
+  }
+}

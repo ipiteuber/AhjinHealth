@@ -90,13 +90,16 @@ export class RegisterFormComponent implements OnInit {
       return;
     }
 
-    // Agrega el nuevo usuario a SQLite
-    await this.usuarioService.addUsuario(userData);
+    // Agrega el nuevo usuario a SQLite y recupera el id
+    const nuevoUsuario = await this.usuarioService.addUsuario(userData);
+
+    // Guardar el usuario en localStorage
+    localStorage.setItem('usuarioActual', JSON.stringify(nuevoUsuario));
 
     this.registrationSuccess = true;
     this.registrationError = false;
 
-    console.log('Registro exitoso:', userData);
+    console.log('Registro exitoso:', nuevoUsuario);
 
     // Redirreccion al login
     setTimeout(() => {
