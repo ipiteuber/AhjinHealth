@@ -42,7 +42,6 @@ export class LoginFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    await this.usuarioService.createTable(); // Revisa que la tabla exista
   }
 
   // Metodo que se ejecuta al enviar form

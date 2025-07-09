@@ -17,9 +17,7 @@ export class MedicosPage implements OnInit {
 
   // Metodo que se ejecuta al iniciar el componente
   async ngOnInit() {
-    // Crea la tabla de medicos si no existe
-    await this.medicoService.createTable();
-    // Obtiene la lista de medicos
+    // Obtiene medicos desde BD
     this.medicos = await this.medicoService.getMedicos();
 
     // Medicos de prueba 

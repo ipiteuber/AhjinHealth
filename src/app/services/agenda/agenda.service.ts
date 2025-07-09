@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { SqliteService } from '../sqlite/sqlite.service';
 
 export interface Agenda {
   id?: number;
@@ -14,16 +15,28 @@ export interface Agenda {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AgendaService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private db: SqliteService, private http: HttpClient) {}
+
+  async createTable() {
+    const query = `CREATE TABLE IF NOT EXISTS agendas (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      medico INTEGER,
+      usuario INTEGER,
+      fecha TEXT,
+      hora TEXT,
+      ubicacion TEXT
+    )`;
+    await this.db.executeSql(query);
+  }
 
   getAgendas(): Observable<Agenda[]> {
     return this.http.get<Agenda[]>(`${this.apiUrl}/agenda`).pipe(
-      catchError(err => {
+      catchError((err) => {
         if (err.status === 404) {
           return throwError(() => err);
         }

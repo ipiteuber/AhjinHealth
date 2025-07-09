@@ -49,7 +49,6 @@ export class RegisterFormComponent implements OnInit {
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)
       ]],
     });
-    await this.usuarioService.createTable(); // Revisa que la tabla exista
   }
 
   // Metodo activa animacion shake

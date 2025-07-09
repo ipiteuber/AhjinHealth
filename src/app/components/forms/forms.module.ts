@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
+// Componentes forms
 import { LoginFormComponent } from '../login-form/login-form.component';
 import { RegisterFormComponent } from '../register-form/register-form.component';
 import { ScheduleFormComponent } from '../schedule-form/schedule-form.component';

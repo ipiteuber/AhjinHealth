@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AgendaService, Agenda } from 'src/app/services/agenda/agenda.service';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-schedule-form',
@@ -25,7 +26,8 @@ export class ScheduleFormComponent implements OnInit {
     private fb: FormBuilder,
     private agendaService: AgendaService,
     private apiService: ApiService,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
+    private usuarioService: UsuarioService
   ) {}
 
   // Inicializa form
@@ -94,13 +96,28 @@ export class ScheduleFormComponent implements OnInit {
   // Metodo para agendar una cita
   agendarCita(): void {
     if (this.scheduleForm.valid) {
-      // Obtiene el usuario logueado desde localStorage
-      const usuarioStr = localStorage.getItem('usuarioActual');
-      const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
+      this.scheduleForm.markAllAsTouched();
+      alert('Completa todos los campos requeridos.');
+      return;
+    }
 
-      // Verifica si el usuario esta logueado
-      if (!usuario || !usuario.id) {
-        alert('Debes iniciar sesion para agendar una cita.');
+    // Obtiene el usuario logueado desde localStorage
+    const usuarioStr = localStorage.getItem('usuarioActual');
+    const usuario = usuarioStr ? JSON.parse(usuarioStr) : null;
+
+    // Verifica si el usuario esta logueado
+    if (!usuario || !usuario.id) {
+      alert('Debes iniciar sesion para agendar una cita.');
+      return;
+    }
+
+    // Verifica que usuario existe en BD
+    this.usuarioService.getUsuarios().then(usuarios => {
+      const usuarioValido = usuarios.find(u => u.id === usuario.id);
+    
+      if (!usuarioValido) {
+        alert('Usuario invalido. Por favor, inicia sesion nuevamente.');
+        localStorage.removeItem('usuarioActual');
         return;
       }
 
@@ -118,10 +135,7 @@ export class ScheduleFormComponent implements OnInit {
           setTimeout(() => (this.citaAgendada = false), 3000);
         }
       });
-    } else {
-      this.scheduleForm.markAllAsTouched();
-      alert('Completa todos los campos requeridos.');
-    }
+    });
   }
 }
 
