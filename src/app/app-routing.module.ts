@@ -46,12 +46,14 @@ const routes: Routes = [
       import('./pages/history-schedule/history-schedule.module').then(
         (m) => m.HistorySchedulePageModule
       ),
-      canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
