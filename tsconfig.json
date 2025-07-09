@@ -29,5 +29,15 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "exclude": [
+  "node_modules",
+  "android",
+  "ios",
+  "build",
+  "dist",
+  ".angular",
+  ".vscode",
+  "www"
+  ]
 }
