@@ -5,6 +5,7 @@ import { AgendaService, Agenda } from 'src/app/services/agenda/agenda.service';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { UsuarioService, Usuario } from 'src/app/services/usuario/usuario.service';
+import { Observable, from } from 'rxjs';
 
 @Component({
   selector: 'app-schedule-form',
@@ -19,7 +20,6 @@ export class ScheduleFormComponent implements OnInit {
   medicos: any[] = [];
   horasDisponibles: string[] = [];
   ubicacion: string = '';
-  agenda: any[] = [];
   isSubmitting = false;
 
   // Dependencias
@@ -45,8 +45,14 @@ export class ScheduleFormComponent implements OnInit {
 
   // Carga los medicos desde la api
   cargarMedicos() {
-    this.apiService.getMedicos().subscribe((medicos) => {
-      this.medicos = medicos;
+    this.apiService.getMedicos().subscribe({
+      next: (medicos) => {
+        this.medicos = medicos;
+      },
+      error: (err) => {
+        console.error('Error al cargar medicos en agendar cita:', err);
+        this.medicos = [];
+      },
     });
   }
 
@@ -54,32 +60,40 @@ export class ScheduleFormComponent implements OnInit {
   cargarHorasDisponibles() {
     const medicoId = this.scheduleForm.get('medico')?.value;
     const fecha = this.scheduleForm.get('fecha')?.value;
+
     // Si no hay medico/fecha seleccionada limpia las horas
     if (!medicoId || !fecha) {
       this.horasDisponibles = [];
       return;
     }
 
-    this.agendaService.getAgendas().subscribe((agendas) => {
-      this.agenda = agendas;
-      // Horas para agendar
-      const todasLasHoras = [
-        '09:00', '10:00', '11:00', '12:00',
-        '15:00', '16:00', '17:00', '18:00'
-      ];
-
-      // Filtra las horas
-      const ocupadas = agendas
-        .filter((a) => a.medico === medicoId && a.fecha === fecha)
-        .map((a) => a.hora);
-
-      this.horasDisponibles = todasLasHoras.filter(
-        (h) => !ocupadas.includes(h)
-      );
-    },
-    (error) => {
-      console.error('Error al cargar las agendas:', error);
+    // Recupera usuario actual
+    const usuario = this.usuarioService.getUsuarioLocal();
+    if (!usuario || !usuario.id) {
       this.horasDisponibles = [];
+      return;
+    }
+
+    // Obtiene las agendas del servicio
+    this.agendaService.getAgendas(usuario.id).subscribe({
+      next: (agendas) => {
+        const todasLasHoras = [
+          '09:00', '10:00', '11:00', '12:00',
+          '15:00', '16:00', '17:00', '18:00'
+        ];
+    
+        const ocupadas = agendas
+          .filter((a) => a.medico === medicoId && a.fecha === fecha)
+          .map((a) => a.hora);
+    
+        this.horasDisponibles = todasLasHoras.filter(
+          (h) => !ocupadas.includes(h)
+        );
+      },
+      error: (error) => {
+        console.error('Error al cargar las agendas:', error);
+        this.horasDisponibles = [];
+      }
     });
 
   }
@@ -157,10 +171,12 @@ export class ScheduleFormComponent implements OnInit {
         next: () => {
           this.citaAgendada = true;
           this.scheduleForm.reset();
+          this.horasDisponibles = [];
           setTimeout(() => (this.citaAgendada = false), 3000);
         },
-        error: () => {
-          alert('Error al guardar la cita');
+        error: (err) => {
+          console.error('Error al guardar la cita:', err);
+          alert('Error al guardar la cita. Intenta nuevamente.');
         },
         complete: () => {
           this.isSubmitting = false;

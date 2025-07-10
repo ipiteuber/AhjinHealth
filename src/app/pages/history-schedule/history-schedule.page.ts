@@ -28,7 +28,7 @@ export class HistorySchedulePage implements OnInit {
     this.error = '';
     this.usandoDatosLocales = false;
 
-    // Obtener usuario actual
+    // Recupera usuario actual
     const usuario = this.usuarioService.getUsuarioLocal();
     
     if (!usuario || !usuario.id) {
@@ -44,13 +44,11 @@ export class HistorySchedulePage implements OnInit {
       },
       error: (err) => {
         if (err.status === 404) {
-          this.historial = this.agendaService.getLocalAgendas();
-          this.usandoDatosLocales = true;
-          this.loading = false;
+          this.error = 'ERROR 404 - No hay citas registradas para este usuario.';
         } else {
-          this.error = 'No se pudo cargar el historial.';
-          this.loading = false;
+          this.error = 'No se pudo cargar el historial de citas, revisa tu conexion.';
         }
+        this.loading = false;
       },
     });
   }

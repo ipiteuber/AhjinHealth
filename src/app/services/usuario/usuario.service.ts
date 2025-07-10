@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SqliteService } from '../sqlite/sqlite.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface Usuario {
   id?: number;
@@ -13,7 +17,9 @@ export interface Usuario {
   providedIn: 'root',
 })
 export class UsuarioService {
-  constructor(private db: SqliteService) {}
+  constructor(private db: SqliteService, private http: HttpClient) {}
+
+  private apiUrl = environment.apiUrl; // URL base de la API
 
   // Crea tabla usuarios
   async createTable() {
@@ -133,7 +139,10 @@ export class UsuarioService {
     try {
       return JSON.parse(data);
     } catch {
-      console.error('Error parseando usuario localStorage');
+      console.error(
+        'Error parseando usuario localStorage, se eliminara entrada corrupta.'
+      );
+      this.removeUsuarioLocal();
       return null;
     }
   }
@@ -141,5 +150,23 @@ export class UsuarioService {
   // Eliminar usuario actual de localStorage (logout)
   removeUsuarioLocal() {
     localStorage.removeItem('usuarioActual');
+  }
+
+  // Sincronizar usuario con API
+  syncUsuarioConAPI(usuario: Usuario): Observable<any> {
+    return this.http.post(`${this.apiUrl}/usuarios`, usuario).pipe(
+      catchError((err) => {
+        console.error('Error al sincronizar usuario con API:', err);
+        return of(null);
+      })
+    );
+  }
+
+  // Sincronizar usuarios pendientes con API
+  async syncUsuariosPendientes(): Promise<void> {
+    const usuarios = await this.getUsuarios();
+    for (const usuario of usuarios) {
+      this.syncUsuarioConAPI(usuario).subscribe();
+    }
   }
 }
