@@ -19,6 +19,10 @@
           </ion-select-option>
         </ion-select>
 
+        <ion-text color="danger" *ngIf="isInvalid('medico')">
+          <p class="error-message">Este campo es obligatorio.</p>
+        </ion-text>
+
         <label class="form-label" for="fecha">Selecciona una fecha</label>
         <ion-datetime
           formControlName="fecha"
@@ -26,6 +30,10 @@
           (ionChange)="onMedicoFechaChange()"
           class="form-input"
         ></ion-datetime>
+
+        <ion-text color="danger" *ngIf="isInvalid('fecha')">
+          <p class="error-message">Este campo es obligatorio.</p>
+        </ion-text>
 
         <label class="form-label" for="hora">Selecciona una hora</label>
         <ion-select
@@ -38,14 +46,18 @@
             {{ hora }}
           </ion-select-option>
         </ion-select>
+        
+        <ion-text color="danger" *ngIf="isInvalid('hora')">
+          <p class="error-message">Este campo es obligatorio.</p>
+        </ion-text>
 
         <ion-item class="form-input">
           <ion-label position="floating">Ubicacion</ion-label>
           <ion-input formControlName="ubicacion" readonly></ion-input>
         </ion-item>
 
-        <button type="submit" class="form-button" [disabled]="!scheduleForm.valid">
-          Agendar
+        <button type="submit" class="form-button" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Agendando...' : 'Agendar' }}
         </button>
 
         <p class="form-message" *ngIf="citaAgendada">

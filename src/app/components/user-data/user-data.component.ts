@@ -24,18 +24,18 @@ export class UserDataComponent implements OnInit {
   // Al iniciar el componente recupera el usuario del localStorage
   ngOnInit(): void {
     // Recupera usuario del localStorage
-    const storedUser = localStorage.getItem('usuarioActual');
+    const storedUser = this.usuarioService.getUsuarioLocal();
     if (storedUser) {
       try {
-        const parsed = JSON.parse(storedUser);
         // Valida que tenga los campos nombre, email y contrasena
-        if (parsed && parsed.nombre && parsed.email && parsed.contrasena) {
-          this.user = parsed;
+        if (storedUser && storedUser.nombre && storedUser.email && storedUser.contrasena) {
+          this.user = storedUser;
         } else {
           this.user = null;
         }
       } catch {
         this.user = null;
+        console.error('Error al recuperar el usuario del localStorage');
       }
     }
   }
@@ -44,9 +44,12 @@ export class UserDataComponent implements OnInit {
     this.mostrarPassword = !this.mostrarPassword;
   }
 
+  // Cerrar sesion y eliminar usuario del localStorage
   logout(): void {
-    localStorage.removeItem('usuarioActual');
+    this.usuarioService.removeUsuarioLocal();
     this.router.navigate(['/login']);
+    alert('Sesion cerrada correctamente.');
+    this.user = null; // Limpia el usuario actual
   }
 
   // Metodos camara
@@ -73,7 +76,7 @@ export class UserDataComponent implements OnInit {
         return;
       }
       alert('Error al seleccionar la foto.');
-      console.error('Error al seleccionar/tomar foto:', err);
+      console.error('Error al tomar foto:', err);
     }
   }
 
@@ -100,17 +103,26 @@ export class UserDataComponent implements OnInit {
         return;
       }
       alert('Error al seleccionar la foto.');
-      console.error('Error al seleccionar/tomar foto:', err);
+      console.error('Error al seleccionar foto:', err);
     }
   }
 
   // Asigna foto a usuario
   setUserPhoto(imageData: string | undefined) {
+    // Verifica que imageData y user no sean nulos
     if (!imageData || !this.user) return;
     this.user.foto = 'data:image/jpeg;base64,' + imageData;
-    localStorage.setItem('usuarioActual', JSON.stringify(this.user));
+    this.usuarioService.setUsuarioLocal(this.user);
+
+    // Actualiza el usuario en el servicio
     if (this.user.id) {
       this.usuarioService.updateUsuario(this.user);
     }
+    // Actualiza el usuario en el localStorage
+    localStorage.setItem('usuarioActual', JSON.stringify(this.user));
+
+    // Recarga el componente para reflejar los cambios
+    this.ngOnInit();
+    alert('Foto actualizada correctamente.');
   }
 }

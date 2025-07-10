@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
-import { UsuarioService, Usuario } from '../../services/usuario/usuario.service';
+import {
+  UsuarioService,
+  Usuario,
+} from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-register-form',
@@ -39,15 +42,29 @@ export class RegisterFormComponent implements OnInit {
   // Metodo inicializa el componente
   async ngOnInit() {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      // Validacion de contrasena
-      // Al menos 8 caracteres, una mayuscula, un numero y un caracter especial
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/)
-      ]],
+      name: [
+        '',
+        [
+          // Validacion de nombre
+          Validators.required,
+          Validators.pattern(/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]{2,}$/),
+        ],
+      ],
+      email: [
+        '',
+        // Validacion de email
+        [Validators.required, Validators.email, Validators.maxLength(80)],
+      ],
+      password: [
+        '',
+        [
+          // Validacion de contrasena
+          // Al menos 8 caracteres, una mayuscula, un numero y un caracter especial
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
+        ],
+      ],
     });
   }
 
@@ -57,12 +74,10 @@ export class RegisterFormComponent implements OnInit {
     setTimeout(() => (this.isShaking = false), 500);
   }
 
-  // Metodo que se ejecuta al enviar form
+  // Metodo se ejecuta al enviar form
   async onSubmit() {
-    // Revisa si el formulario es invalido
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      // Si form es invalido activa shake
       this.triggerShake();
       return;
     }
@@ -74,7 +89,6 @@ export class RegisterFormComponent implements OnInit {
       contrasena: this.registerForm.value.password,
     };
 
-    // Verifica si existe un usuario con el mismo email en SQLite
     const usuarios = await this.usuarioService.getUsuarios();
     const emailExists = usuarios.some((u) => u.email === userData.email);
 
@@ -82,30 +96,29 @@ export class RegisterFormComponent implements OnInit {
       console.warn('Ya hay un usuario registrado con ese email.');
       this.registrationError = true;
       this.registrationSuccess = false;
-
-      // Animacion boton al fallar el registro
       this.triggerShake();
-
       return;
     }
 
-    // Agrega el nuevo usuario a SQLite y recupera el id
-    const nuevoUsuario = await this.usuarioService.addUsuario(userData);
+    // Agrega el nuevo usuario a SQLite
+    try {
+      const nuevoUsuario = await this.usuarioService.addUsuario(userData);
 
-    // Guardar el usuario en localStorage
-    localStorage.setItem('usuarioActual', JSON.stringify(nuevoUsuario));
+      this.registrationSuccess = true;
+      this.registrationError = false;
 
-    this.registrationSuccess = true;
-    this.registrationError = false;
+      console.log('Registro exitoso:', nuevoUsuario);
 
-    console.log('Registro exitoso:', nuevoUsuario);
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 2000);
 
-    // Redirreccion al login
-    setTimeout(() => {
-      this.router.navigate(['/login']);
-    }, 2000);
-
-    this.registrationError = false;
-    this.registerForm.reset();
+      this.registerForm.reset();
+    } catch (error) {
+      console.error('Error durante el registro:', error);
+      this.registrationError = true;
+      this.registrationSuccess = false;
+      this.triggerShake();
+    }
   }
 }

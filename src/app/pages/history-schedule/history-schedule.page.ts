@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AgendaService, Agenda } from 'src/app/services/agenda/agenda.service';
+import { UsuarioService } from 'src/app/services/usuario/usuario.service';
 
 @Component({
   selector: 'app-history-schedule',
@@ -13,7 +14,10 @@ export class HistorySchedulePage implements OnInit {
   error = '';
   usandoDatosLocales = false;
 
-  constructor(private agendaService: AgendaService) {}
+  constructor(
+    private agendaService: AgendaService,
+    private usuarioService: UsuarioService
+  ) {}
 
   ngOnInit(): void {
     this.cargarHistorial();
@@ -24,7 +28,16 @@ export class HistorySchedulePage implements OnInit {
     this.error = '';
     this.usandoDatosLocales = false;
 
-    this.agendaService.getAgendas().subscribe({
+    // Obtener usuario actual
+    const usuario = this.usuarioService.getUsuarioLocal();
+    
+    if (!usuario || !usuario.id) {
+      this.error = 'Usuario no encontrado. Por favor, inicia sesion nuevamente.';
+      this.loading = false;
+      return;
+    }
+
+    this.agendaService.getAgendas(usuario.id).subscribe({
       next: (data) => {
         this.historial = data;
         this.loading = false;

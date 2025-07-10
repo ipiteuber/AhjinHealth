@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { UsuarioService } from '../../services/usuario/usuario.service';
+import { UsuarioService, Usuario } from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-login-form',
@@ -54,26 +54,19 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
-    // Obtiene email y password del form
-    const { email, password } = this.loginForm.value;
+    const { email, password } = this.loginForm.value; // Obtiene email y password del form
+    const usuario: Usuario | null = await this.usuarioService.getUsuarioByEmail(email); // Busca usuario por email en BD
 
-    // Busca usuario en la base de datos
-    const usuarios = await this.usuarioService.getUsuarios();
-    const usuario = usuarios.find(
-      (u) => u.email === email && u.contrasena === password
-    );
-
-    if (usuario) {
+    if (usuario && usuario.contrasena === password) {
       this.loginSuccess = true;
       this.loginError = false;
-      // Guarda sesion para el guard
-      localStorage.setItem('usuarioActual', JSON.stringify(usuario));
+
+      this.usuarioService.setUsuarioLocal(usuario); // Guarda sesion para el guard
 
       // Redirreccion a home en 2s
       setTimeout(() => {
         this.router.navigate(['/home']);
       }, 2000);
-
     } else {
       this.loginError = true;
       this.loginSuccess = false;
