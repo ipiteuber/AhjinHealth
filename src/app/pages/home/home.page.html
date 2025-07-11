@@ -1,15 +1,25 @@
 <app-navbar></app-navbar>
 
 <div class="home-container">
+  <!-- Saludo personalizado si es que hay usuario -->
+  <div *ngIf="usuario" class="user-welcome">
+    Hola {{ usuario.nombre }}, bienvenido nuevamente :D
+  </div>
+
   <section class="hero">
     <div class="hero-text">
       <h1>Bienvenido a Ahijn!</h1>
-      <h2>Reserva tu hora médica</h2>
+      <h2>Reserva tu hora medica</h2>
     </div>
     <div class="hero-image">
-      <img src="assets/hero.jpg" alt="Imagen Hero" />
+      <img src="assets/hero.jpg" alt="Imagen Hero"/>
     </div>
   </section>
+
+  <div class="quick-actions">
+    <a class="btn-primary" routerLink="/login">Iniciar Sesion</a>
+    <a class="btn-secondary" routerLink="/signin">Registrarse</a>
+  </div>
 </div>
 
 <app-footer></app-footer>

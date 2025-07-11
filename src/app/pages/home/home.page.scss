@@ -1,9 +1,11 @@
 .home-container {
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; 
     align-items: center;
     padding: 1rem;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
 .hero {
@@ -18,6 +20,7 @@
     padding: 2rem;
 
     @media(min-width: 768px) {
+        max-width: 900px;
         flex-direction: row;
         justify-content: space-between;
     }
@@ -59,5 +62,51 @@
         border-radius: 12px;
         object-fit: cover;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Saludo personalizado */
+.user-welcome {
+    width: 100%;
+    max-width: 480px;
+    background: #A1CECB;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Botones de acceso rapido */
+.quick-actions {
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+
+    a.btn-primary,
+    a.btn-secondary {
+        display: inline-block;
+        padding: 12px 0;
+        font-size: 1.1rem;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    a.btn-primary {
+    background-color: #5FABA5;
+    color: white;
+    }
+
+    a.btn-secondary {
+        background-color: #79B9B3;
+        color: white;
     }
 }
