@@ -21,12 +21,15 @@ export class DatabaseInitService {
   async initDatabase() {
     try {
       // Crea las tablas de usuario y medico si no existen
+      const start = performance.now();
+      console.log('Iniciando tablas SQLite...');
       await Promise.all([
         this.usuarioService.createTable(),
         this.medicoService.createTable(),
         this.agendaService.createTable()
       ]);
-      console.log('Tablas SQLite iniciadas correctamente');
+      const end = performance.now();
+      console.log('Tablas SQLite iniciadas correctamente en', (end - start).toFixed(2), 'ms');
     } catch (error) {
       console.error('Error al inicializar BD:', error);
     }
