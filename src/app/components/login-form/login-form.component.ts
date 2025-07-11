@@ -57,7 +57,8 @@ export class LoginFormComponent implements OnInit {
     const { email, password } = this.loginForm.value; // Obtiene email y password del form
     const usuario: Usuario | null = await this.usuarioService.getUsuarioByEmail(email); // Busca usuario por email en BD
 
-    if (usuario && usuario.contrasena === password) {
+    // Verifica contrasena de usuario
+    if (usuario != null && usuario.contrasena === password) {
       this.loginSuccess = true;
       this.loginError = false;
 

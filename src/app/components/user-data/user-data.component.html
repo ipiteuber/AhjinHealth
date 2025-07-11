@@ -11,8 +11,8 @@
         <div *ngIf="!user.foto" style="width:120px;height:120px;border-radius:50%;background:#eee;display:inline-block;line-height:120px;">Sin foto</div>
       </div>
       <div class="form-actions" style="justify-content: space-evenly;">
-        <button class="custom-button" (click)="tomarFoto()">Tomar foto</button>
-        <button class="custom-button" (click)="elegirFoto()">Elegir foto</button>
+        <button class="custom-button" (click)="tomarFoto()" aria-label="Tomar foto">Tomar foto</button>
+        <button class="custom-button" (click)="elegirFoto()" aria-label="Elegir foto">Elegir foto</button>
       </div>
 
       <div class="full-width">
@@ -27,13 +27,13 @@
       </div>
 
       <div class="form-actions">
-        <button class="custom-button" (click)="togglePassword()">
+        <button class="custom-button" (click)="togglePassword()" tabindex="0" aria-label="Mostrar/ocultar contrasena">
           {{ mostrarPassword ? 'Ocultar Contrasena' : 'Mostrar Contrasena' }}
         </button>
       </div>
 
       <div class="form-actions">
-        <button class="custom-button logout" (click)="logout()">
+        <button class="custom-button logout" (click)="logout()" tabindex="0" aria-label="Cerrar sesion">
           Cerrar Sesion
         </button>
       </div>

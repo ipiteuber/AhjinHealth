@@ -37,7 +37,9 @@ export class UserDataComponent implements OnInit {
         this.user = null;
         console.error('Error al recuperar el usuario del localStorage');
       }
-    }
+    } else {
+    this.user = null;
+    console.warn('No se encontro usuario en el localStorage');}
   }
 
   togglePassword(): void {
@@ -120,9 +122,6 @@ export class UserDataComponent implements OnInit {
     }
     // Actualiza el usuario en el localStorage
     localStorage.setItem('usuarioActual', JSON.stringify(this.user));
-
-    // Recarga el componente para reflejar los cambios
-    this.ngOnInit();
     alert('Foto actualizada correctamente.');
   }
 }

@@ -35,7 +35,7 @@ export class ScheduleFormComponent implements OnInit {
   ngOnInit(): void {
     this.scheduleForm = this.fb.group({
       medico: [null, Validators.required],
-      fecha: [null, Validators.required],
+      fecha: [this.minDate, Validators.required],
       hora: [null, Validators.required],
       ubicacion: [''],
     });

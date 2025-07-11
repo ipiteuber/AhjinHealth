@@ -26,6 +26,7 @@
         <label class="form-label" for="fecha">Selecciona una fecha</label>
         <ion-datetime
           formControlName="fecha"
+          [min]="minDate"
           presentation="date"
           (ionChange)="onMedicoFechaChange()"
           class="form-input"

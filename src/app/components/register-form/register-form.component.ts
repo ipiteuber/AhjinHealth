@@ -47,7 +47,7 @@ export class RegisterFormComponent implements OnInit {
         [
           // Validacion de nombre
           Validators.required,
-          Validators.pattern(/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]{2,}$/),
+          Validators.pattern(/^[a-zA-Z\s]{2,}$/),
         ],
       ],
       email: [
