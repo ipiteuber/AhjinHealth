@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
     if (usuario) {
       return true; // Sesion activa
     } else {
+      console.warn('Acceso bloqueado por usuario no logueado');
       this.router.navigate(['/login']);
       return false; // Redirige si no hay sesion
     }
