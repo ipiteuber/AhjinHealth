@@ -1,0 +1,41 @@
+.medicos-container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #D7E0CC;
+
+    ion-list {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+
+        ion-item {
+            --background: white;
+            border-bottom: 1px solid #A4CCB9;
+
+            h2 {
+                color: #5FABA5;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            p {
+                color: #79B9B3;
+                margin: 0;
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    .no-medicos {
+        margin-top: 2rem;
+        color: #5FABA5;
+        font-weight: 500;
+        text-align: center;
+    }
+}

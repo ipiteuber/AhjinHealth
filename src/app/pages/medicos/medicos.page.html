@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<ion-content class="ion-padding">
+<div class="medicos-container">
   <ion-list>
     <ion-item *ngFor="let medico of medicos">
       <ion-label>
@@ -9,7 +9,10 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <div *ngIf="medicos.length === 0" class="ion-text-center" style="margin-top: 2rem;">
+
+  <div *ngIf="medicos.length === 0" class="no-medicos">
     <p>No hay medicos registrados.</p>
   </div>
-</ion-content>
+</div>
+
+<app-footer></app-footer>
