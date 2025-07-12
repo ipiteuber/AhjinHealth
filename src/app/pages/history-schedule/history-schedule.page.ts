@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AgendaService, Agenda } from 'src/app/services/agenda/agenda.service';
 import { UsuarioService } from 'src/app/services/usuario/usuario.service';
+import { NavegadorService } from 'src/app/services/navegador/navegador.service'; 
 
 @Component({
   selector: 'app-history-schedule',
@@ -16,7 +17,8 @@ export class HistorySchedulePage implements OnInit {
 
   constructor(
     private agendaService: AgendaService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private navegadorService: NavegadorService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class HistorySchedulePage implements OnInit {
     this.agendaService.getAgendas(usuario.id).subscribe({
       next: (data) => {
         this.historial = data;
+        this.usandoDatosLocales = this.agendaService.isNavegador();
         this.loading = false;
       },
       error: (err) => {

@@ -10,7 +10,7 @@ import { AgendaService } from '../agenda/agenda.service';
   providedIn: 'root'
 })
 export class DatabaseInitService {
-  // Inyecta servicios de usuario y medico para tablas
+  // Inyecta servicios de usuario, medico y agenda para tablas
   constructor(
     private usuarioService: UsuarioService,
     private medicoService: MedicoService,

@@ -55,23 +55,31 @@ export class LoginFormComponent implements OnInit {
     }
 
     const { email, password } = this.loginForm.value; // Obtiene email y password del form
-    const usuario: Usuario | null = await this.usuarioService.getUsuarioByEmail(email); // Busca usuario por email en BD
+    try {
+      const usuario: Usuario | null = await this.usuarioService.getUsuarioByEmail(email); // Busca usuario por email en BD
 
-    // Verifica contrasena de usuario
-    if (usuario != null && usuario.contrasena === password) {
-      this.loginSuccess = true;
-      this.loginError = false;
+      // Verifica contrasena de usuario
+      if (usuario != null && usuario.contrasena === password) {
+        this.loginSuccess = true;
+        this.loginError = false;
 
-      this.usuarioService.setUsuarioLocal(usuario); // Guarda sesion para el guard
+        this.usuarioService.setUsuarioLocal(usuario); // Guarda sesion para el guard
 
-      // Redirreccion a home en 2s
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 2000);
-    } else {
+        // Redirreccion a home en 2s
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 2000);
+      } else {
+        this.loginError = true;
+        this.loginSuccess = false;
+        // Si no encuentra usuario activa shake
+        this.triggerShake();
+      }
+    } catch (error) {
+      console.error('Error al iniciar sesion:', error);
       this.loginError = true;
       this.loginSuccess = false;
-      // Si no encuentra usuario activa shake
+      // Si ocurre un error activa shake
       this.triggerShake();
     }
   }
