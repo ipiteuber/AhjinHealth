@@ -40,7 +40,7 @@ export class LoginFormComponent implements OnInit {
   async ngOnInit() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      contrasena: ['', Validators.required],
     });
   }
 
@@ -54,12 +54,12 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
-    const { email, password } = this.loginForm.value; // Obtiene email y password del form
+    const { email, contrasena } = this.loginForm.value; // Obtiene email y password del form
     try {
       const usuario: Usuario | null = await this.usuarioService.getUsuarioByEmail(email); // Busca usuario por email en BD
 
       // Verifica contrasena de usuario
-      if (usuario != null && usuario.contrasena === password) {
+      if (usuario != null && usuario.contrasena === contrasena) {
         this.loginSuccess = true;
         this.loginError = false;
 

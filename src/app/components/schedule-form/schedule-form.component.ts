@@ -81,11 +81,11 @@ export class ScheduleFormComponent implements OnInit {
           '09:00', '10:00', '11:00', '12:00',
           '15:00', '16:00', '17:00', '18:00'
         ];
-    
+
         const ocupadas = agendas
           .filter((a) => a.medico === medicoId && a.fecha === fecha)
           .map((a) => a.hora);
-    
+
         this.horasDisponibles = todasLasHoras.filter(
           (h) => !ocupadas.includes(h)
         );
@@ -93,9 +93,8 @@ export class ScheduleFormComponent implements OnInit {
       error: (error) => {
         console.error('Error al cargar las agendas:', error);
         this.horasDisponibles = [];
-      }
+      },
     });
-
   }
 
   // Se ejecuta cuando cambia el medico o la fecha
@@ -122,6 +121,7 @@ export class ScheduleFormComponent implements OnInit {
       .catch(() => {
         this.ubicacion = 'No disponible';
         this.scheduleForm.get('ubicacion')?.setValue('No disponible');
+        alert('No se pudo obtener la ubicacion actual.');
       });
   }
   // Valida si un control del formulario es invalido
@@ -140,7 +140,7 @@ export class ScheduleFormComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    
+
     // Recupera usuario del servicio
     const usuario: Usuario | null = this.usuarioService.getUsuarioLocal();
 
@@ -152,37 +152,38 @@ export class ScheduleFormComponent implements OnInit {
     }
 
     // Verifica que usuario existe en BD
-    this.usuarioService.getUsuarioByEmail(usuario.email).then((usuarioValido) => {
-      if (!usuarioValido || usuarioValido.id !== usuario.id) {
-        alert('Usuario invalido. Por favor, inicia sesion nuevamente.');
-        this.usuarioService.removeUsuarioLocal();
-        this.isSubmitting = false;
-        return;
-      }
-
-      // Crea cita asignando id de usuario y datos de form
-      const nuevaCita: Agenda = {
-        ...this.scheduleForm.value,
-        usuario: usuario.id,
-      };
-
-      // Llama al servicio para guardar la cita
-      this.agendaService.addAgenda(nuevaCita).subscribe({
-        next: () => {
-          this.citaAgendada = true;
-          this.scheduleForm.reset();
-          this.horasDisponibles = [];
-          setTimeout(() => (this.citaAgendada = false), 3000);
-        },
-        error: (err) => {
-          console.error('Error al guardar la cita:', err);
-          alert('Error al guardar la cita. Intenta nuevamente.');
-        },
-        complete: () => {
+    this.usuarioService
+      .getUsuarioByEmail(usuario.email)
+      .then((usuarioValido) => {
+        if (!usuarioValido || usuarioValido.id !== usuario.id) {
+          alert('Usuario invalido. Por favor, inicia sesion nuevamente.');
+          this.usuarioService.removeUsuarioLocal();
           this.isSubmitting = false;
-        },
+          return;
+        }
+
+        // Crea cita asignando id de usuario y datos de form
+        const nuevaCita: Agenda = {
+          ...this.scheduleForm.value,
+          usuario: usuario.id,
+        };
+
+        // Llama al servicio para guardar la cita
+        this.agendaService.addAgenda(nuevaCita).subscribe({
+          next: () => {
+            this.citaAgendada = true;
+            this.scheduleForm.reset();
+            this.horasDisponibles = [];
+            setTimeout(() => (this.citaAgendada = false), 3000);
+          },
+          error: (err) => {
+            console.error('Error al guardar la cita:', err);
+            alert('Error al guardar la cita. Intenta nuevamente.');
+          },
+          complete: () => {
+            this.isSubmitting = false;
+          },
+        });
       });
-    });
   }
 }
-

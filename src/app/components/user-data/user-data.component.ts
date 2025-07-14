@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService, Usuario } from 'src/app/services/usuario/usuario.service';
+import { NavegadorService } from 'src/app/services/navegador/navegador.service';
 
 // Modulos para camara
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
@@ -18,6 +19,7 @@ export class UserDataComponent implements OnInit {
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
+    private navegador: NavegadorService,
     private camera: Camera // Servicio de camara
   ) {}
 
@@ -32,6 +34,8 @@ export class UserDataComponent implements OnInit {
           this.user = storedUser;
         } else {
           this.user = null;
+          this.usuarioService.removeUsuarioLocal();
+          console.warn('Usuario invalido o no encontrado, se elimino del localStorage');
         }
       } catch {
         this.user = null;
@@ -42,6 +46,7 @@ export class UserDataComponent implements OnInit {
     console.warn('No se encontro usuario en el localStorage');}
   }
 
+  // Cambia el estado de mostrarPassword
   togglePassword(): void {
     this.mostrarPassword = !this.mostrarPassword;
   }
@@ -49,14 +54,20 @@ export class UserDataComponent implements OnInit {
   // Cerrar sesion y eliminar usuario del localStorage
   logout(): void {
     this.usuarioService.removeUsuarioLocal();
+    this.user = null; // Limpia el usuario actual
     this.router.navigate(['/login']);
     alert('Sesion cerrada correctamente.');
-    this.user = null; // Limpia el usuario actual
   }
 
   // Metodos camara
   // Toma foto con la camara
   async tomarFoto() {
+    // Previene uso de camara en navegador
+    if (this.navegador.isNavegador()) {
+      alert('La camara no esta disponible en navegador');
+      return;
+    }
+
     const options: CameraOptions = {
       quality: 80,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -84,6 +95,12 @@ export class UserDataComponent implements OnInit {
 
   // Elige foto de la galera
   async elegirFoto() {
+    // Previene uso de camara en navegador
+    if (this.navegador.isNavegador()) {
+      alert('La camara no esta disponible en navegador');
+      return;
+    }
+
     const options: CameraOptions = {
       quality: 80,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -110,18 +127,31 @@ export class UserDataComponent implements OnInit {
   }
 
   // Asigna foto a usuario
-  setUserPhoto(imageData: string | undefined) {
+  async setUserPhoto(imageData: string | undefined) {
+    // Previene uso de camara en navegador
+    if (this.navegador.isNavegador()) {
+      alert('La camara no esta disponible en navegador');
+      return;
+    }
+
     // Verifica que imageData y user no sean nulos
-    if (!imageData || !this.user) return;
+    if (!imageData || !this.user) {
+      alert('No se pudo obtener la foto o el usuario no esta definido.');
+      return;
+    }
+
     this.user.foto = 'data:image/jpeg;base64,' + imageData;
     this.usuarioService.setUsuarioLocal(this.user);
 
     // Actualiza el usuario en el servicio
     if (this.user.id) {
-      this.usuarioService.updateUsuario(this.user);
+      try {
+        await this.usuarioService.updateUsuario(this.user);
+        alert('Foto actualizada correctamente.');
+      } catch (error) {
+        console.error('Error al actualizar usuario con foto:', error);
+        alert('No se pudo actualizar la foto.');
+      }
     }
-    // Actualiza el usuario en el localStorage
-    localStorage.setItem('usuarioActual', JSON.stringify(this.user));
-    alert('Foto actualizada correctamente.');
   }
 }

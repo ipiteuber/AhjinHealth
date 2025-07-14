@@ -11,8 +11,8 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Contrasena</mat-label>
-      <input matInput type="password" formControlName="password" required autocomplete="current-password" />
-      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Campo obligatorio</mat-error>
+      <input matInput type="password" formControlName="contrasena" required autocomplete="current-password" />
+      <mat-error *ngIf="loginForm.get('contrasena')?.hasError('required')">Campo obligatorio</mat-error>
     </mat-form-field>
 
     <div class="form-actions">

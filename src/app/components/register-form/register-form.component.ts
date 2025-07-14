@@ -42,7 +42,7 @@ export class RegisterFormComponent implements OnInit {
   // Metodo inicializa el componente
   async ngOnInit() {
     this.registerForm = this.fb.group({
-      name: [
+      nombre: [
         '',
         [
           // Validacion de nombre
