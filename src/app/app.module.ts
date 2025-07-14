@@ -32,7 +32,6 @@ import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
