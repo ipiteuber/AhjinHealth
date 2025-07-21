@@ -84,7 +84,7 @@ export class RegisterFormComponent implements OnInit {
 
     // Crea objeto usuario con los datos del form
     const userData: Usuario = {
-      nombre: this.registerForm.value.name,
+      nombre: this.registerForm.value.nombre,
       email: this.registerForm.value.email,
       contrasena: this.registerForm.value.password,
     };

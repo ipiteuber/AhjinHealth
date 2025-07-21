@@ -22,7 +22,8 @@
       "es2018", 
       "dom"
     ],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "types" : ["cypress"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -39,5 +40,6 @@
   ".angular",
   ".vscode",
   "www"
-  ]
+  ],
+  "include": ["**/*.ts"],
 }
