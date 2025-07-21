@@ -4,7 +4,6 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: 'home' },
   {
     path: 'home',
     loadChildren: () =>
@@ -49,6 +48,9 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+
+  // Si no existe ruta
+  { path: '**', redirectTo: 'home' },
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { DatabaseInitService } from './services/database-init/database-init.service';
 
 @Component({
@@ -8,11 +9,21 @@ import { DatabaseInitService } from './services/database-init/database-init.serv
   standalone: false,
 })
 export class AppComponent {
-  constructor(private dbInit: DatabaseInitService) {
-    this.initApp();
+  constructor(private platform: Platform, private dbInit: DatabaseInitService) {
+    this.initializeApp();
   }
 
-  async initApp() {
+  async initializeApp() {
+    await this.platform.ready();
+
+    if (this.platform.is('android')) {
+      // Configuracion para Android
+    } else if (this.platform.is('ios')) {
+      // Configuracion para iOS
+    } else {
+      // Configuracion para web u otro
+    }
+
     await this.dbInit.initDatabase();
   }
 }
